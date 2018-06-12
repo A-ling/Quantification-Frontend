@@ -1,46 +1,58 @@
 <html>
 
 	<head>
-		<title>ling</title>
+		<title>首页</title>
 		<script href="./index.js"></script>
-		<!-- <link type="style" rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-	<link href="main.css" rel="stylesheet"></head>
+	<link href="main.css" rel="stylesheet"><link href="index_details.css" rel="stylesheet"></head>
 
 	<body>
-		<h1>Hello world</h1>
-		<p id="test">test</p>
-
-		<div class="row">
-			<div class="col-md-3">bt1</div>
-			<div class="col-md-3">bt2</div>
-			<div class="col-md-3">bt3</div>
-			<div class="col-md-3">bt4</div>
+		<nav class="main-navigation">
+			<div class="container">
+				<div class="row">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="collapse navbar-collapse" id="main-menu">
+								<ul class="menu">
+									<li>
+										<a href="/" title="Brinson归因" class="active">Brinson归因</a>
+									</li>
+									<li>
+										<a href="index_details" title="Brinson归因明细">Brinson归因明细</a>
+									</li>
+									<li>
+										<a href="multi-factor.html" title="多因子归因">多因子归因</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="page_border">
+			<div class="container">
+				<div class="row bar_title">
+					<div class="col-sm-6">
+						<p>策略：鹏华量化价值投资_001</p>
+					</div>
+					<div class="col-sm-6">
+						<p>报告期：20140101~20161231</p>
+					</div>
+				</div>
+				<div class="row bar_details">
+					<div class="col-sm-12">
+						<button class="btn btn-default">详细数据</button>
+						<button class="btn btn-default">导出</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="BrinsonBar"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<!--<div id="echartMain" style="width:300px;height:300px;"></div>-->
-
-		<div>
-
-			<h4>工具提示（Tooltip）插件 - 锚</h4> 这是一个
-			<a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">默认的 Tooltip</a>. 这是一个
-			<a href="#" class="tooltip-test" data-toggle="tooltip" data-placement="left" title="左侧的 Tooltip">左侧的 Tooltip</a>. 这是一个
-			<a href="#" data-toggle="tooltip" data-placement="top" title="顶部的 Tooltip">顶部的 Tooltip</a>. 这是一个
-			<a href="#" data-toggle="tooltip" data-placement="bottom" title="底部的 Tooltip">底部的 Tooltip</a>. 这是一个
-			<a href="#" data-toggle="tooltip" data-placement="right" title="右侧的 Tooltip">右侧的 Tooltip</a>
-			<br>
-			<h4>工具提示（Tooltip）插件 - 按钮</h4>
-			<button type="button" class="btn btn-default" data-toggle="tooltip" title="默认的 Tooltip"> 默认的 Tooltip</button>
-			<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="左侧的 Tooltip">左侧的 Tooltip
-</button>
-			<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="顶部的 Tooltip">顶部的 Tooltip
-</button>
-			<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="底部的 Tooltip">底部的 Tooltip
-</button>
-			<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="右侧的 Tooltip">右侧的 Tooltip</button>
-			<!-- <script>
-var $ = require("jquery");
-	
-</script> -->
-		</div>
-	<script type="text/javascript" src="index.js"></script></body>
+	<script type="text/javascript" src="main.js"></script><script type="text/javascript" src="index_details.js"></script></body>
 
 </html>

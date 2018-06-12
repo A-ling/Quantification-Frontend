@@ -8,11 +8,22 @@ var UglifyJsPlugin=require('uglifyjs-webpack-plugin');
 module.exports = {
 	mode:'none',
     devtool: 'source-map',
-    entry: ['./src/index'], //入口文件
-    output: {
-        path: path.join(__dirname, 'dist'), //打包出口文件路径
-        filename: 'index.js', //打包文件名
-    },
+//  entry: ['./src/index'], //入口文件
+//  output: {
+//      path: path.join(__dirname, 'dist'), //打包出口文件路径
+//      filename: 'index.js', //打包文件名
+//  },
+	entry: {  
+	    //登陆后进入的主页面  
+	    main: './src/index.js',
+	    index_details:'./src/index_details.js',  
+	  },  
+	  output: {  
+	    //输出到公共文件public/build下  
+	    path: path.resolve(__dirname, 'dist'),  
+	    //名称也就是对应的main.js和login.js  
+	    filename: '[name].js',  
+	  }, 
     module: {
 		//mode:'none',
         rules: [
@@ -101,7 +112,11 @@ module.exports = {
             filename: "index.html",
             inject: "body",
         }),
-        
+        new HtmlWebpackPlugin({
+            template: './src/index_details.html', //模板路径
+            filename: "index_details.html",
+            inject: "body",
+        }),
         new CleanWebpackPlugin(['dist'], {
             root: 'D:/projects/Quantification-Frontend/Quantification-Frontend/',
             verbose: true,
@@ -126,7 +141,7 @@ module.exports = {
     }, */
     devServer: {
         //配置nodejs本地服务器，
-        contentBase: './dis',
+        contentBase: './dist',
         hot: true //本地服务器热更新
     },
     resolve:{

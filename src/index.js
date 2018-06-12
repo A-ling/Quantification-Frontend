@@ -1,34 +1,57 @@
-/* require('bootstrap/dist/css/bootstrap.min.css')
-require('bootstrap/dist/js/bootstrap.min.js') */
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-require("./main.css")
+require("./main.css");
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 var $ = require("jquery");
-
-/* require("bootstrap"); */
-/* console.log($);*/
-$('#test').text("jQuery is OK!"); 
-
 var echarts = require('echarts');
 
+$(function() {
+//	$('#main-menu li a').click(function() {
+//		$(this).addClass("active").siblings().removeClass("active");
+//	});
 
-// 基于准备好的dom，初始化echarts实例
-var myChart = echarts.init(document.getElementById('echartMain'));
-// 绘制图表
-myChart.setOption({
-    title: {
-        text: 'ECharts 入门示例'
-    },
-    tooltip: {},
-    xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-    },
-    yAxis: {},
-    series: [{
-        name: '销量',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
-    }]
+	//绘制Brinson绩效归因柱状图
+	DrawBrinsonBar();
 });
 
-$(function () { $("[data-toggle='tooltip']").tooltip(); });
+function DrawBrinsonBar(){
+	var xAxisData = ["电器设备", "传媒", "化工", "国防军工", "金融", "银行","汽车"];
+	var yAxisData = [-5, 20, -36, 10, 10, 20,-30];
+	
+	
+	var dom = document.getElementById('BrinsonBar');
+//	var dom = $('#BrinsonBar');
+	var BrinsonBar = echarts.init(dom); 
+	
+	// 指定图表的配置项和数据
+	var option = {
+		tooltip: {
+			trigger: 'axis',
+			formatter:function(params){
+				for(var i = 0;i < params.length;i++){
+					return params[i].name + '</br>' + params[i].seriesName + ':' + params[i].value + '%';
+				}
+			}
+		},
+		legend: {
+			data: ['超额贡献']
+		},
+		itemStyle:{
+			color:'#108ee9',
+		},
+		xAxis: {
+			axisLabel:{
+				rotate:45
+			},
+			data: xAxisData
+		},
+		yAxis: {},
+		series: [{
+			name: '超额贡献',
+			type: 'bar',
+			data: yAxisData
+		}]
+	};
+	
+	BrinsonBar.setOption(option);
+}
