@@ -1,0 +1,48 @@
+{
+  "name": "Quantification-Frontend",
+  "version": "1.0.0",
+  "description": "quantization-frontend project",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "build": "webpack --config webpack.config.prod.js",
+    "dev": "webpack-dev-server --config webpack.config.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A-ling/Quantification-Frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/A-ling/Quantification-Frontend/issues"
+  },
+  "homepage": "https://github.com/A-ling/Quantification-Frontend#readme",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "bootstrap": "^4.1.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "echarts": "^4.1.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "img-loader": "^3.0.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "postcss-loader": "^2.1.5",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.12.0"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "jquery": "^3.3.1",
+    "open-browser-webpack-plugin": "0.0.5",
+    "popper.js": "^1.14.3",
+    "webpack-cli": "^3.0.3",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
