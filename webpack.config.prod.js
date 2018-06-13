@@ -4,53 +4,67 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
+var hostBase = "http://localhost:8081";
+
 module.exports = {
-	mode: 'production',
-	devtool: 'cheap-eval-source-map',
-	entry: [
-		'./src/index'
-	],
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: 'index.js',
-		publicPath: "http://localhost:8081/",
-
+	mode : 'production',
+    devtool: 'cheap-eval-source-map',
+	entry:{
+		common:'./src/common/common.js',
+		index:'./src/index.js',
+		multi_factor:'./src/multi_factor/multi_factor.js',
+		brinson_details:'./src/brinson_details/brinson_details.js',
 	},
-	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		new ExtractTextPlugin("styles.css"),
-		new OpenBrowserPlugin({
-			url: 'http://localhost:8081'
-		}),
+    output: {
+        path: path.join(__dirname, 'dev'),
+        filename: '[name].js',
+		publicPath: hostBase,
+		
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin("styles.css"),
+        new OpenBrowserPlugin({ url: hostBase+'/index' }),
+        new HtmlWebpackPlugin({
+			filename:'index',
+            template: './src/index.html',
+            chunks:['common','index']
+        }),
+        new HtmlWebpackPlugin({
+			filename:'multi_factor',
+            template: './src/multi_factor/multi_factor.html',
+            chunks:['common','multi_factor']
+        }),
 		new HtmlWebpackPlugin({
-			template: './src/index.html'
-		})
-	],
-	module: {
-
-		rules: [{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: 'css-loader'
-				})
-			}, {
-				test: /\.js$/,
-				loaders: ['babel-loader'],
-				exclude: /node_modules/
-			}, {
-				test: /\.json$/,
-				loader: "json-loader"
-			}, {
-				test: /\.less$/,
-				use: [{
-					loader: "style-loader" // creates style nodes from JS strings
-				}, {
-					loader: "css-loader" // translates CSS into CommonJS
-				}, {
-					loader: "less-loader" // compiles Less to CSS
-				}, ]
-			},
+			filename:'brinson_details',
+            template: './src/brinson_details/brinson_details.html',
+            chunks:['common','brinson_details']
+        }),
+    ],
+    module: {
+		
+        rules: [
+            {
+                test: /\.css$/,
+                loader:  ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
+            }
+            ,{
+                test: /\.js$/,
+                loaders: ['babel-loader'],
+                exclude:/node_modules/
+            },{
+                test: /\.json$/,
+                loader: "json-loader"
+            },{
+                test: /\.less$/,
+                use: [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "less-loader" // compiles Less to CSS
+                },]},
 			/* {
 			//正则匹配后缀.png、.jpg、.gif图片文件;
 			  test: /\.(png|jpg|gif)$/i,
@@ -69,18 +83,18 @@ module.exports = {
 					 },]
 			} */
 			{
-				test: /\.(png|jpg|gif)$/,
-				loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]',
-				options: {
-					publicPath: '/'
-				}
-			}
-		]
-	},
-	devServer: {
-		contentBase: './build',
-		hot: true,
-		host: '127.0.0.1',
-		port: '8081'
-	}
+                test: /\.(png|jpg|gif)$/,
+                loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]',
+                options:{
+                    publicPath:'/'
+                }
+            }
+        ]
+    },
+    devServer: {
+        contentBase: './build/',
+        hot: true,
+        host: '127.0.0.1',
+        port: '8081'
+    }
 }

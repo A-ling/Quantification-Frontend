@@ -49,161 +49,33 @@ $(function() {
 	BrinsonDetail();
 });
 
-function DrawConfigurationBar(xAxisData, configData, stockcrossData) {
-	var dom = document.getElementById('ConfigurationBar');
-	var ConfigurationBar = echarts.init(dom);
-	
-//	ConfigurationBar.showLoading({
-//  	text : "图表数据正在努力加载..."
-//  });
-    
-	var option = {
-		toolbox: {
-			show: true,
-            x : '90%',
-            feature : {
-                dataView : {
-                    show : true,
-                    readOnly : true
-                },
-                saveAsImage: {　　　　
-					show: true,
-					name:'Brinson归因-行业配置等图',
-			　　　　excludeComponents: ['toolbox'],
-			　　　　pixelRatio: 2	　　　　
-				}
-            }
-		},
-		legend: {
-			data: ['行业配置', '选股+交叉']
-		},
-		itemStyle: {
-			color: '#108ee9',
-		},
-		xAxis: {
-			axisLabel: {
-				rotate: 45
-			},
-			data: xAxisData
-		},
-		yAxis: {},
-		series: [{
-			name: '行业配置',
-			type: 'bar',
-			itemStyle: {
-				color: '#108ee9'
-			},
-			data: configData,
-			formatter: function(params) {
-				for(var i = 0; i < params.length; i++) {
-					return params[i].name + '</br>' + params[i].seriesName + ':' + (params[i].value * 100).toFixed(2) + '%';
-				}
-			}
-		}, {
-			name: '选股+交叉',
-			type: 'bar',
-			itemStyle: {
-				color: '#C0504D'
-			},
-			data: stockcrossData,
-			formatter: function(params) {
-				for(var i = 0; i < params.length; i++) {
-					return params[i].name + '</br>' + params[i].seriesName + ':' + (params[i].value * 100).toFixed(2) + '%';
-				}
-			}
-		}]
-	};
-	
-//	ConfigurationBar.hideLoading();
-	
-	ConfigurationBar.setOption(option);
-}
-
-function DrawExContributionBar(xAxisData, yAxisData) {
-	var dom = document.getElementById('ExContributionBar');
-	var ExContributionBar = echarts.init(dom);
-	
-//	ExContributionBar.showLoading({
-//  	text : "图表数据正在努力加载..."
-//  });
-
-	var option = {
-		tooltip: {
-			trigger: 'axis',
-			formatter: function(params) {
-				for(var i = 0; i < params.length; i++) {
-					return params[i].name + '</br>' + params[i].seriesName + ':' + (params[i].value * 100).toFixed(2) + '%';
-				}
-			}
-		},
-		toolbox: {
-			show: true,
-            x : '90%',
-            feature : {
-                dataView : {
-                    show : true,
-                    readOnly : true
-                },
-                saveAsImage: {　　　　
-					show: true,
-					name:'Brinson归因-超额贡献图',
-			　　　　excludeComponents: ['toolbox'],
-			　　　　pixelRatio: 2	　　　　
-				}
-            }
-		},
-		legend: {
-			data: ['超额贡献']
-		},
-		itemStyle: {
-			color: '#108ee9',
-		},
-		xAxis: {
-			axisLabel: {
-				rotate: 45
-			},
-			data: xAxisData
-		},
-		yAxis: {},
-		series: [{
-			name: '超额贡献',
-			type: 'bar',
-			data: yAxisData
-		}]
-	};
-	
-//	ExContributionBar.hideLoading();
-
-	ExContributionBar.setOption(option);
-}
-
 function BrinsonDetail() {
 	var BrinsonDetailData = data;
 	console.log(BrinsonDetailData);
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
 	var index = BrinsonDetailData.index; //列数据
-
-	//获取超额贡献,行业配置和选股+交叉对应的值
-	var ExContribution = [];
-	var configData = [];
-	var stockcrossData = [];
-	for(var i = 0; i < dataArray.length; i++) {
-		for(var j = 0; j < columns.length; j++) {
-			if(columns[j] == '超额贡献') {
-				ExContribution.push(dataArray[i][j]);
-			}
-			if(columns[j] == '行业配置') {
-				configData.push(dataArray[i][j]);
-			}
-			if(columns[j] == '选股+交叉') {
-				stockcrossData.push(dataArray[i][j]);
-			}
+	
+	columns.unshift('组合/行业');
+	
+	for(var i = 0;i < columns.length;i ++){
+		var BrinsonThHtml = '';
+		BrinsonThHtml = '<th>' + columns[i] + '</th>';
+		$('#BrinsonTh').append(BrinsonThHtml);
+	}
+	
+	for(var i = 0;i < dataArray.length;i ++){
+		dataArray[i].unshift(index[i]);
+	}
+	
+	for(var i = 0;i < dataArray.length;i ++){
+		var BrinsonTdHtml = '';
+		for(var j = 0;j < dataArray[i].length;j ++){
+			BrinsonTdHtml = '<td>' + dataArray[i][j] + '</td>';
+			console.log(BrinsonTdHtml);
+			$('#BrinsonTd').append(BrinsonTdHtml);
 		}
 	}
-	//绘制Brinson绩效归因柱状图    
-	DrawExContributionBar(index, ExContribution);
-	DrawConfigurationBar(index, configData, stockcrossData);
 }
 
 //Brinson归因明细数据
@@ -241,19 +113,3 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 		}
 	})
 }
-
-$('#ExImage').click(function() {
-	console.log('a');
-});
-
-$('#ExExcel').click(function() {
-	console.log('b');
-});
-
-$('#ConfigImage').click(function() {
-	console.log('c');
-});
-
-$('#ConfigExcel').click(function() {
-	console.log('d');
-});
