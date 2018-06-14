@@ -193,7 +193,7 @@ input[type=button] {
 	text-align: center;
 	margin: 10px 0;
 }
-.bar_details button{
+.bar_details .btn{
 	background: #fff;
 	color: #000;
 	border: 1px solid #eee;
@@ -201,4 +201,11 @@ input[type=button] {
 	margin: 0 10px;
 }
 
+.Downtable{
+	margin: 10px 0px;
+}
+
 /*表格样式*/
+.table td, .table th{
+	padding: 15px 0px;
+}

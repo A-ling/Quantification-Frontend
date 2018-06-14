@@ -34,15 +34,15 @@
 			<div class="container">
 				<div class="row bar_title">
 					<div class="col-sm-6">
-						<p>策略：鹏华量化价值投资_001</p>
+						<p id="strategy"></p>
 					</div>
 					<div class="col-sm-6">
-						<p>报告期：20140101~20161231</p>
+						<p id="date"></p>
 					</div>
 				</div>
 				<div class="row bar_details">
 					<div class="col-sm-12">
-						<button class="btn btn-default">详细数据</button>
+						<a class="btn btn-default" href="#exDatas">详细数据</a>	
 						<button class="btn btn-default" id="ExImage">导出图片</button>
 						<button class="btn btn-default" id="ExExcel">导出excel</button>
 					</div>
@@ -54,7 +54,7 @@
 				</div>
 				<div class="row bar_details">
 					<div class="col-sm-12">
-						<button class="btn btn-default">详细数据</button>
+						<a class="btn btn-default" href="#datas">详细数据</a>	
 						<button class="btn btn-default" id="ConfigImage">导出图片</button>
 						<button class="btn btn-default" id="ConfigExcel">导出excel</button>
 					</div>
@@ -64,6 +64,36 @@
 						<div id="ConfigurationBar"></div>
 					</div>
 				</div>
+				
+				<div class="row Downtable" id="exDatas">
+					<div class="col-sm-12 table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<th>超额贡献</th>
+								</tr>
+							</thead>
+							<tbody id="exDatasTbody"></tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div class="row Downtable" id="datas">
+					<div class="col-sm-12 table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<th>行业配置</th>
+									<th>选股+交叉</th>
+								</tr>
+							</thead>
+							<tbody id="datasTbody"></tbody>
+						</table>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</body>

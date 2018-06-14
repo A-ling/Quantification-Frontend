@@ -1,5 +1,4 @@
 ﻿var $ = require("jquery");
-var echarts = require('echarts');
 
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
@@ -38,12 +37,17 @@ var data = {
 }
 
 $(function() {
-	//获取数据
-	//	var strategy_id = "B0000000000000000000000000002314";
-	//	var index_code = "000905";
-	//	var begin_date = "20180228";
-	//	var end_date = "20180525";
-	//	BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+//	var strategy;
+//	var strategy_id = getQueryVariable('strategy_id');
+//	var index_code = getQueryVariable('index_code');
+//	var begin_date = getQueryVariable('begin_date');
+//	var end_date = getQueryVariable('end_date');
+//	BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+	
+	$('#date').text('报告期：20140101~20161231');
+	$('#strategy').text('策略：鹏华量化价值投资_001');
+//	$('#date').text('报告期：' + begin_date + '~' + end_date);
+//	$('#strategy').text('策略：' + strategy);
 
 	//	测试数据
 	BrinsonDetail();
@@ -51,43 +55,32 @@ $(function() {
 
 function BrinsonDetail() {
 	var BrinsonDetailData = data;
-	console.log(BrinsonDetailData);
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
 	var index = BrinsonDetailData.index; //列数据
-	
+
 	columns.unshift('组合/行业');
-	
-	for(var i = 0;i < columns.length;i ++){
+
+	for(var i = 0; i < columns.length; i++) {
 		var BrinsonThHtml = '';
 		BrinsonThHtml = '<th>' + columns[i] + '</th>';
 		$('#BrinsonTh').append(BrinsonThHtml);
 	}
-	
-	for(var i = 0;i < dataArray.length;i ++){
+
+	for(var i = 0; i < dataArray.length; i++) {
 		dataArray[i].unshift(index[i]);
 	}
-	
-/*
-	for(var i = 0;i < dataArray.length;i ++){
-		var BrinsonTdHtml = '';
-		for(var j = 0;j < dataArray[i].length;j ++){
-			BrinsonTdHtml = '<td>' + dataArray[i][j] + '</td>';
-			console.log(BrinsonTdHtml);
-			$('#BrinsonTd').append(BrinsonTdHtml);
-		}
-	}
-*/
+
 	var BrinsonTbody = '';
-	for(var i = 0;i < dataArray.length;i ++){
-		BrinsonTbody+='<tr>';
-		for(var j = 0;j < dataArray[i].length;j ++){
+	for(var i = 0; i < dataArray.length; i++) {
+		BrinsonTbody += '<tr>';
+		for(var j = 0; j < dataArray[i].length; j++) {
 			var value = dataArray[i][j];
 			if(value == null)
 				value = "";
-			BrinsonTbody += '<td>' + value  + '</td>';
+			BrinsonTbody += '<td>' + value + '</td>';
 		}
-		BrinsonTbody+='</tr>';
+		BrinsonTbody += '</tr>';
 	}
 	$('#BrinsonTbody').append(BrinsonTbody);
 }
@@ -126,4 +119,19 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 			alert(errorThrown);
 		}
 	})
+}
+
+//获取url参数
+function getQueryVariable(variable) {
+	var query = window.location.href;
+//	var query = "http://192.168.250.12:30000/performance/brinson?strategy_id=B0000000000000000000000000002314&index_code=000905&begin_date=20180228&end_date=20180525";
+	
+	var vars = query.split("?")[1].split("&");
+	for(var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		if(pair[0] == variable) {
+			return pair[1];
+		}
+	}
+	return false;
 }

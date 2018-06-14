@@ -38,13 +38,17 @@ var data = {
 }
 
 $(function() {
-	//获取数据
-	//	var strategy_id = "B0000000000000000000000000002314";
-	//	var index_code = "000905";
-	//	var begin_date = "20180228";
-	//	var end_date = "20180525";
-	//	BrinsonDetails(strategy_id, index_code, begin_date, end_date);
-
+//	var strategy;
+//	var strategy_id = getQueryVariable('strategy_id');
+//	var index_code = getQueryVariable('index_code');
+//	var begin_date = getQueryVariable('begin_date');
+//	var end_date = getQueryVariable('end_date');
+//	BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+	
+	$('#date').text('报告期：20140101~20161231');
+	$('#strategy').text('策略：鹏华量化价值投资_001');
+//	$('#date').text('报告期：' + begin_date + '~' + end_date);
+//	$('#strategy').text('策略：' + strategy);
 	//	测试数据
 	BrinsonDetail();
 });
@@ -179,7 +183,6 @@ function DrawExContributionBar(xAxisData, yAxisData) {
 
 function BrinsonDetail() {
 	var BrinsonDetailData = data;
-	console.log(BrinsonDetailData);
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
 	var index = BrinsonDetailData.index; //列数据
@@ -204,6 +207,40 @@ function BrinsonDetail() {
 	//绘制Brinson绩效归因柱状图    
 	DrawExContributionBar(index, ExContribution);
 	DrawConfigurationBar(index, configData, stockcrossData);
+	
+//	超额贡献表格
+	var ExTdata = [];
+	var exDatasTbody = '';
+	for(var i = 0; i < ExContribution.length; i++) {
+		ExTdata.push([index[i],ExContribution[i]]);
+	}
+	for(var i = 0; i < ExTdata.length; i++) {
+		exDatasTbody += '<tr>';
+		for(var j = 0; j < ExTdata[i].length; j++) {
+			if(ExTdata[i][j] == null)
+				ExTdata[i][j] = "";
+			exDatasTbody += '<td>' + ExTdata[i][j] + '</td>';
+		}
+		exDatasTbody += '</tr>';
+	}
+	$('#exDatasTbody').append(exDatasTbody);
+	
+//	行业配置以及选股+交叉表格
+	var CStdata = [];
+	var datasTbody = '';
+	for(var i = 0; i < configData.length; i++) {
+		CStdata.push([index[i],configData[i],stockcrossData[i]]);
+	}
+	for(var i = 0; i < CStdata.length; i++) {
+		datasTbody += '<tr>';
+		for(var j = 0; j < CStdata[i].length; j++) {
+			if(CStdata[i][j] == null)
+				CStdata[i][j] = "";
+			datasTbody += '<td>' + CStdata[i][j] + '</td>';
+		}
+		datasTbody += '</tr>';
+	}
+	$('#datasTbody').append(datasTbody);
 }
 
 //Brinson归因明细数据
@@ -240,6 +277,21 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 			alert(errorThrown);
 		}
 	})
+}
+
+//获取url参数
+function getQueryVariable(variable) {
+	var query = window.location.href;
+//	var query = "http://192.168.250.12:30000/performance/brinson?strategy_id=B0000000000000000000000000002314&index_code=000905&begin_date=20180228&end_date=20180525";
+	
+	var vars = query.split("?")[1].split("&");
+	for(var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		if(pair[0] == variable) {
+			return pair[1];
+		}
+	}
+	return false;
 }
 
 $('#ExImage').click(function() {
