@@ -1,4 +1,4 @@
-var $ = require("jquery");
+﻿var $ = require("jquery");
 var echarts = require('echarts');
 
 var data = {
@@ -68,6 +68,7 @@ function BrinsonDetail() {
 		dataArray[i].unshift(index[i]);
 	}
 	
+/*
 	for(var i = 0;i < dataArray.length;i ++){
 		var BrinsonTdHtml = '';
 		for(var j = 0;j < dataArray[i].length;j ++){
@@ -76,6 +77,19 @@ function BrinsonDetail() {
 			$('#BrinsonTd').append(BrinsonTdHtml);
 		}
 	}
+*/
+	var BrinsonTbody = '';
+	for(var i = 0;i < dataArray.length;i ++){
+		BrinsonTbody+='<tr>';
+		for(var j = 0;j < dataArray[i].length;j ++){
+			var value = dataArray[i][j];
+			if(value == null)
+				value = "";
+			BrinsonTbody += '<td>' + value  + '</td>';
+		}
+		BrinsonTbody+='</tr>';
+	}
+	$('#BrinsonTbody').append(BrinsonTbody);
 }
 
 //Brinson归因明细数据
