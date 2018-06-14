@@ -1,8 +1,51 @@
 var $ = require("jquery");
 var idTmr;//定时对象
 
+//类似小程序，模块只有通过 module.exports 或者 exports 才能对外暴露接口
+//两种写法
+
+//写法1：
+//module.exports.show = show;
+
+//写法2
+// module.exports = {
+// 	show:show,
+// 	show1:test1,
+// 	show2:test2
+// }
+
+// function show(msg){
+// 	alert("exprotExcel.js-" + msg);
+// }
+// function test1(msg){
+// 	alert("test1"+msg);
+// }
+// function test2(msg){
+// 	alert("test2"+msg);
+// }
+
+module.exports = {
+	//测试下载excel
+	test:test,
+
+	/*
+	入参：
+	dataTable:二维cell对象数组，
+	excelName:导出的excel文件默认名称
+	*/
+	exportExcel:exportExcel,
+
+	/*
+	入参：
+	value：单元格显示内容
+	colspan:单元格占多少列，默认值为1
+	rowspan:单元格占多少行，默认值为1
+	*/
+	cell:cell,
+};
+
 //测试
-function test1(){
+function test(){
 	var data = new Array();
 	var hang = new Array();
 	hang.push(new cell("00"));

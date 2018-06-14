@@ -1,11 +1,28 @@
 var $ = require("jquery");
 var echarts = require('echarts');
+var exportExcel = require('./common/exportExcel.js')
+
+window.Index = window.Index || {};
+// window.Index.test3 = function(){
+// 	exportExcel.show("调用exportExcel封装的方法测试");
+// 	exportExcel.show1("show1");
+// 	exportExcel.show2("show2");
+// 	alert("index.js Index");
+// }
+
+
+/*全局变量*/
+var index = []; //列数据
+//获取超额贡献,行业配置和选股+交叉对应的值
+var ExContribution = [];
+var configData = [];
+var stockcrossData = [];
 
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
 	"index": ["交通运输", "休闲服务", "传媒", "公用事业", "农林牧渔", "化工", "医药生物", "商业贸易", "国防军工", "家用电器", "建筑材料", "建筑装饰", "房地产", "有色金属", "机械设备", "汽车", "电子", "电气设备", "纺织服装", "综合", "计算机", "轻工制造", "通信", "采掘", "钢铁", "银行", "非银金融", "食品饮料", "合计"],
 	"data": [
-		[0.0, 0.03734, -0.03734, -0.0491362257, 0.0, -0.0018347467, 0.0018347467, 0.0018347467, 0.0],
+		[0.0, 0.03734, -0.03734, -0.0491362257, 0.0, -0.0018347467, 0.0019347467, 0.0017347467, 0.0],
 		[0.0, 0.00611, -0.00611, -0.0728227727, 0.0, -0.0004449471, 0.0004449471, 0.0004449471, 0.0],
 		[0.0, 0.04437, -0.04437, -0.0768231915, 0.0, -0.003408645, 0.003408645, 0.003408645, 0.0],
 		[0.038350907, 0.0408, -0.002449093, -0.024020312, -0.0033822653, -0.0009800287, -0.0024022366, 0.000058828, -0.0024610646],
@@ -36,6 +53,49 @@ var data = {
 		[null, null, null, null, -0.0036610694, -0.0125893321, 0.0089282627, -0.0017806429, 0.0107089056]
 	]
 }
+
+//在页面需要调用这些方法
+window.Index ={
+	//导出超额贡献图的excel
+	Export1 : function(){
+		var fileName = "Brinson归因-超额贡献图";
+		var data = new Array();//二维数组
+		
+		for(var i = 0;i<index.length; i++){
+			var hang = new Array(); 
+			//每行两个单元格
+			hang.push(new exportExcel.cell(index[i]));
+			hang.push(new exportExcel.cell(ExContribution[i]));
+
+			//放入数组
+			data.push(hang);
+		}
+		exportExcel.exportExcel(data,fileName)
+	},
+	//导出Brinson归因-行业配置等图的Excel
+	Export2 : function(){
+		var fileName = "Brinson归因-行业配置等图";
+		var data = new Array();//二维数组
+		
+		//excel首行
+		var head = new Array();
+		head.push(new exportExcel.cell(""));
+		head.push(new exportExcel.cell("行业配置"));
+		head.push(new exportExcel.cell("选股+交叉"));
+		data.push(head);
+
+		for(var i = 0;i<index.length; i++){
+			var hang = new Array(); 
+			//每行三个个单元格
+			hang.push(new exportExcel.cell(index[i]));
+			hang.push(new exportExcel.cell(configData[i]));
+			hang.push(new exportExcel.cell(stockcrossData[i]));
+			//放入数组
+			data.push(hang);
+		}
+		exportExcel.exportExcel(data,fileName)
+	},
+};
 
 $(function() {
 	//获取数据
@@ -177,17 +237,14 @@ function DrawExContributionBar(xAxisData, yAxisData) {
 	ExContributionBar.setOption(option);
 }
 
+
 function BrinsonDetail() {
 	var BrinsonDetailData = data;
 	console.log(BrinsonDetailData);
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
-	var index = BrinsonDetailData.index; //列数据
-
-	//获取超额贡献,行业配置和选股+交叉对应的值
-	var ExContribution = [];
-	var configData = [];
-	var stockcrossData = [];
+	index = BrinsonDetailData.index;
+	
 	for(var i = 0; i < dataArray.length; i++) {
 		for(var j = 0; j < columns.length; j++) {
 			if(columns[j] == '超额贡献') {
@@ -204,6 +261,11 @@ function BrinsonDetail() {
 	//绘制Brinson绩效归因柱状图    
 	DrawExContributionBar(index, ExContribution);
 	DrawConfigurationBar(index, configData, stockcrossData);
+
+	console.log(index);
+	console.log(ExContribution);
+	console.log(configData);
+	console.log(stockcrossData);
 }
 
 //Brinson归因明细数据
