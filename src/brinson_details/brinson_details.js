@@ -1,5 +1,4 @@
 ﻿var $ = require("jquery");
-var echarts = require('echarts');
 
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
@@ -37,57 +36,62 @@ var data = {
 	]
 }
 
-$(function() {
-	//获取数据
-	//	var strategy_id = "B0000000000000000000000000002314";
-	//	var index_code = "000905";
-	//	var begin_date = "20180228";
-	//	var end_date = "20180525";
-	//	BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+//策略信息测试数据
+var StrategyInfo = {
+	"strategy_id": "S0000000000000000000000000000382",
+	"strategy_code": "S0000162",
+	"strategy_name": "PE选股策略",
+	"strategy_version": "1.1.1"
+}
 
+//定义变量
+var strategy_id = '';
+var strategy_code = '';
+var strategy_name = '';
+var strategy_version = '';
+
+$(function() {
+	var strategy_id = getQueryVariable('strategy_id');
+	var begin_date = getQueryVariable('begin_date');
+	var end_date = getQueryVariable('end_date');
+	$('#date').text('报告期：' + begin_date + '~' + end_date);
+	if(strategy_id){
+		getStrategyInfo(strategy_id);
+		$('#strategy').text('策略：' + strategy_name);
+//		BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+	}
 	//	测试数据
 	BrinsonDetail();
 });
 
 function BrinsonDetail() {
 	var BrinsonDetailData = data;
-	console.log(BrinsonDetailData);
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
 	var index = BrinsonDetailData.index; //列数据
-	
+
 	columns.unshift('组合/行业');
-	
-	for(var i = 0;i < columns.length;i ++){
+
+	for(var i = 0; i < columns.length; i++) {
 		var BrinsonThHtml = '';
 		BrinsonThHtml = '<th>' + columns[i] + '</th>';
 		$('#BrinsonTh').append(BrinsonThHtml);
 	}
-	
-	for(var i = 0;i < dataArray.length;i ++){
+
+	for(var i = 0; i < dataArray.length; i++) {
 		dataArray[i].unshift(index[i]);
 	}
-	
-/*
-	for(var i = 0;i < dataArray.length;i ++){
-		var BrinsonTdHtml = '';
-		for(var j = 0;j < dataArray[i].length;j ++){
-			BrinsonTdHtml = '<td>' + dataArray[i][j] + '</td>';
-			console.log(BrinsonTdHtml);
-			$('#BrinsonTd').append(BrinsonTdHtml);
-		}
-	}
-*/
+
 	var BrinsonTbody = '';
-	for(var i = 0;i < dataArray.length;i ++){
-		BrinsonTbody+='<tr>';
-		for(var j = 0;j < dataArray[i].length;j ++){
+	for(var i = 0; i < dataArray.length; i++) {
+		BrinsonTbody += '<tr>';
+		for(var j = 0; j < dataArray[i].length; j++) {
 			var value = dataArray[i][j];
 			if(value == null)
 				value = "";
-			BrinsonTbody += '<td>' + value  + '</td>';
+			BrinsonTbody += '<td>' + value + '</td>';
 		}
-		BrinsonTbody+='</tr>';
+		BrinsonTbody += '</tr>';
 	}
 	$('#BrinsonTbody').append(BrinsonTbody);
 }
@@ -126,4 +130,62 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 			alert(errorThrown);
 		}
 	})
+}
+
+function getStrategyInfo(strategy_id) {
+	if(StrategyInfo){
+		strategy_id = StrategyInfo.strategy_id;
+		strategy_code = StrategyInfo.strategy_code;
+		strategy_name = StrategyInfo.strategy_name;
+		strategy_version = StrategyInfo.strategy_version;
+	}
+}
+
+//获取策略信息
+function getStrategyInfos(strategy_id) {
+	var StrategyInfos_url = "https://quant-dev.phfund.com.cn/quant-policymanager/strategy-simple";
+	$.ajax({
+		url: StrategyInfos_url,
+		type: 'get',
+		data: {
+			strategy_id: strategy_id,
+		},
+		timeout: 15000, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
+		dataType: "json", //请求数据类型
+		beforeSend: function(XMLHttpRequest) {
+			//开始请求之前
+			console.log("正在获取数据...");
+		},
+		success: function(data, textStatus, jqXHR) {
+			console.log(data);
+		},
+		complete: function(XMLHttpRequest, textStatus) {
+			//请求完成
+			// textStatus 可能为：null、'success'、 'notmodified'、 'error'、 'timeout'、 'abort'或'parsererror'等
+			if(textStatus == 'timeout') { //判断是否超时
+				var xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
+				xmlhttp.abort(); //终止当前请求
+				alert("网络超时！");　　　　
+			}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(errorThrown);
+		}
+	})
+}
+
+
+//获取url参数
+function getQueryVariable(variable) {
+//	var query = window.location.href;
+	var query = "http://192.168.250.12:30000/performance/brinson?strategy_id=B0000000000000000000000000002314&index_code=000905&begin_date=20180228&end_date=20180525";
+
+	var vars = query.split("?")[1].split("&");
+	for(var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		if(pair[0] == variable) {
+			return pair[1];
+		}
+	}
+	return false;
 }
