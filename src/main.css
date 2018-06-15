@@ -181,7 +181,7 @@ input[type=button] {
 #main-menu{
 	display: block;
 }
-#ExContributionBar,#ConfigurationBar{
+#ExContributionBar,#ConfigurationBar,#ComContributionBar{
 	width: 100%;
 	height: 500px;
 	border: 1px solid #eee;

@@ -2,8 +2,8 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>首页</title>
-		<script href="./index.js"></script>
+		<title>Barra多因子归因</title>
+		<script href="./barra.js"></script>
 	</head>
 
 	<body>
@@ -15,13 +15,13 @@
 							<div class="collapse navbar-collapse" id="main-menu">
 								<ul class="menu">
 									<li>
-										<a href="index" title="Brinson归因" class="active">Brinson归因</a>
+										<a href="index" title="Brinson归因">Brinson归因</a>
 									</li>
 									<li>
 										<a href="brinson_details" title="Brinson归因明细">Brinson归因明细</a>
 									</li>
 									<li>
-										<a href="barra" title="Barra多因子归因">Barra多因子归因</a>
+										<a href="barra" title="Barra多因子归因" class="active">Barra多因子归因</a>
 									</li>
 									<li>
 										<a href="barra_details" title="Barra多因子归因明细">Barra多因子归因明细</a>
@@ -49,9 +49,21 @@
 				</div>
 				<div class="row bar_details">
 					<div class="col-sm-12">
-						<a class="btn btn-default" href="#exDatas">详细数据</a>	
+						<a class="btn btn-default" href="#comDatas">详细数据</a>	
 						<!--<button class="btn btn-default" id="ExImage">导出图片</button>-->
-						<button class="btn btn-default" id="ExExcel" onclick="window.Index.ExportEx()">导出excel</button>
+						<button class="btn btn-default" id="ExExcel" onclick="window.Index.ExportCom()">导出excel</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="ComContributionBar"></div>
+					</div>
+				</div>
+				<div class="row bar_details">
+					<div class="col-sm-12">
+						<a class="btn btn-default" href="#exDatas">详细数据</a>	
+						<!--<button class="btn btn-default" id="ConfigImage">导出图片</button>-->
+						<button class="btn btn-default" id="ConfigExcel" onclick="window.Index.ExportEx()">导出excel</button>
 					</div>
 				</div>
 				<div class="row">
@@ -59,16 +71,18 @@
 						<div id="ExContributionBar"></div>
 					</div>
 				</div>
-				<div class="row bar_details">
-					<div class="col-sm-12">
-						<a class="btn btn-default" href="#datas">详细数据</a>	
-						<!--<button class="btn btn-default" id="ConfigImage">导出图片</button>-->
-						<button class="btn btn-default" id="ConfigExcel" onclick="window.Index.ExportConfig()">导出excel</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						<div id="ConfigurationBar"></div>
+				
+				<div class="row Downtable" id="comDatas">
+					<div class="col-sm-12 table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<th>组合贡献</th>
+								</tr>
+							</thead>
+							<tbody id="comDatasTbody"></tbody>
+						</table>
 					</div>
 				</div>
 				
@@ -82,21 +96,6 @@
 								</tr>
 							</thead>
 							<tbody id="exDatasTbody"></tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div class="row Downtable" id="datas">
-					<div class="col-sm-12 table-responsive">
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th></th>
-									<th>行业配置</th>
-									<th>选股+交叉</th>
-								</tr>
-							</thead>
-							<tbody id="datasTbody"></tbody>
 						</table>
 					</div>
 				</div>

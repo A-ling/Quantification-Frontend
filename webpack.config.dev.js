@@ -16,8 +16,10 @@ module.exports = {
 	entry:{
 		common:'./src/common/common.js',
 		index:'./src/index.js',
-		multi_factor:'./src/multi_factor/multi_factor.js',
 		brinson_details:'./src/brinson_details/brinson_details.js',
+		barra:'./src/barra/barra.js',
+		barra_details:'./src/barra_details/barra_details.js',
+		barra_risk:'./src/barra_risk/barra_risk.js',
 	},
     output: {
         path: path.join(__dirname, 'dev'),
@@ -35,14 +37,24 @@ module.exports = {
             chunks:['index']
         }),
         new HtmlWebpackPlugin({
-			filename:'multi_factor',
-            template: './src/multi_factor/multi_factor.html',
-            chunks:['multi_factor']
-        }),
-		new HtmlWebpackPlugin({
 			filename:'brinson_details',
             template: './src/brinson_details/brinson_details.html',
             chunks:['brinson_details']
+        }),
+        new HtmlWebpackPlugin({
+			filename:'barra',
+            template: './src/barra/barra.html',
+            chunks:['barra']
+        }),
+        new HtmlWebpackPlugin({
+			filename:'barra_details',
+            template: './src/barra_details/barra_details.html',
+            chunks:['barra_details']
+        }),	
+        new HtmlWebpackPlugin({
+			filename:'barra_risk',
+            template: './src/barra_risk/barra_risk.html',
+            chunks:['barra_risk']
         }),
     ],
     module: {
