@@ -1,5 +1,6 @@
 ﻿import 'bootstrap/dist/css/bootstrap.min.css';
 require("../main.css");
+require("./brinson_details.css");
 var $ = require("jquery");
 var common = require('../common/common.js');
 
