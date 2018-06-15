@@ -3,6 +3,7 @@ require("../main.css");
 require("./barra_risk.css");
 var $ = require("jquery");
 var common = require('../common/common.js');
+var exportExcel = require('../common/exportExcel.js');
 
 var data = {
 	"columns": ["绝对暴露", "基准暴露", "相对暴露", "绝对风险", "相对风险"],
@@ -61,27 +62,57 @@ var StrategyInfo = {
 }
 
 /*全局变量*/
+var index = []; //列数据
+var BarraRiskData = [];    //Barra风险分析
 var strategy_id = '';
 var strategy_code = '';
 var strategy_name = '';
 var strategy_version = '';
 var trade_date = '';
 
+//在页面需要调用这些方法
+window.Index ={
+	//导出Barra风险分析的excel
+	Export : function(){
+//		var fileName = "Barra风险分析";
+//		var data = new Array();//二维数组
+//		
+//		//excel首行
+//		var head = new Array();
+//		head.push(new exportExcel.cell(""));
+//		head.push(new exportExcel.cell("行业配置"));
+//		head.push(new exportExcel.cell("选股+交叉"));
+//		data.push(head);
+//
+//		for(var i = 0;i<index.length; i++){
+//			var hang = new Array(); 
+//			//每行三个个单元格
+//			hang.push(new exportExcel.cell(index[i]));
+//			hang.push(new exportExcel.cell(BarraRiskData[i]));
+//			//放入数组
+//			data.push(hang);
+//		}
+//		exportExcel.exportExcel(data,fileName)
+	}
+};
+
 $(function() {
-	var strategy_id = common.getQueryVariable('strategy_id');
-	var trade_date = common.getQueryVariable('trade_date');
+	strategy_id = common.getQueryVariable('strategy_id');
+	var index_code = common.getQueryVariable('index_code');
+//	var trade_date = common.getQueryVariable('trade_date');
+	var trade_date = '20180228';
 	$('#date').text('日期：' + trade_date);
 	if(strategy_id) {
 		getStrategyInfo(strategy_id);
 		$('#strategy').text('策略：' + strategy_name);
-		//		BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+		//BarraRiskDetails(strategy_id, index_code, trade_date);
 	}
 	//	测试数据
 	common.TableHtml(data, '因子名称', '#BarraRiskTh', '#BarraRiskTbody');
 });
 
 //Brinson归因明细数据
-function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
+function BarraRiskDetails(strategy_id, index_code, trade_date) {
 	var BrinsonDetails_url = "http://192.168.250.12:30000/performance/risk_attr";
 	$.ajax({
 		url: BrinsonDetails_url,
@@ -93,24 +124,27 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 		},
 		timeout: 15000, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
 		dataType: "json", //请求数据类型
-		beforeSend: function(XMLHttpRequest) {
-			//开始请求之前
-			console.log("正在获取数据...");
-		},
 		success: function(data, textStatus, jqXHR) {
-			console.log(data);
+			if(textStatus == 'success'){
+				if(data){
+					common.TableHtml(data, '因子名称', '#BarraRiskTh', '#BarraRiskTbody');
+					
+					for(var i = 0; i < data.data.length; i++) {
+						data.data[i].unshift(data.columns[i]);
+					}
+					BarraRiskData = data.data;
+				}
+			}
 		},
 		complete: function(XMLHttpRequest, textStatus) {
-			//请求完成
-			// textStatus 可能为：null、'success'、 'notmodified'、 'error'、 'timeout'、 'abort'或'parsererror'等
 			if(textStatus == 'timeout') { //判断是否超时
 				var xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
 				xmlhttp.abort(); //终止当前请求
-				alert("网络超时！");　　　　
+				console.log(textStatus);　　　　
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
+			console.log(errorThrown);
 		}
 	})
 }

@@ -63,7 +63,6 @@ var strategy_code = '';			//策略代码
 var strategy_name = '';      //策略名称
 var strategy_version = '';     //策略版本
 
-//在页面需要调用这些方法
 window.Index ={
 	//导出超额贡献图的excel
 	ExportEx : function(){
@@ -107,17 +106,18 @@ window.Index ={
 };
 
 $(function() {
-	var strategy_id = common.getQueryVariable('strategy_id');
+	strategy_id = common.getQueryVariable('strategy_id');
+	var index_code = common.getQueryVariable('index_code');
 	var begin_date = common.getQueryVariable('begin_date');
 	var end_date = common.getQueryVariable('end_date');
 	$('#date').text('报告期：' + begin_date + '~' + end_date);
 	if(strategy_id){
 		getStrategyInfo(strategy_id);
 		$('#strategy').text('策略：' + strategy_name);
-//		BrinsonDetails(strategy_id, index_code, begin_date, end_date);
+		//BrinsonDetails(strategy_id, index_code, begin_date, end_date);
 	}
 	//	测试数据
-	BrinsonDetail();
+	BrinsonDetail(data);
 });
 
 function DrawConfigurationBar(xAxisData, configData, stockcrossData) {
@@ -235,7 +235,7 @@ function DrawExContributionBar(xAxisData, yAxisData) {
 }
 
 
-function BrinsonDetail() {
+function BrinsonDetail(data) {
 	var BrinsonDetailData = data;
 	var columns = BrinsonDetailData.columns; //行数据
 	var dataArray = BrinsonDetailData.data;
@@ -308,24 +308,22 @@ function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
 		},
 		timeout: 15000, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
 		dataType: "json", //请求数据类型
-		beforeSend: function(XMLHttpRequest) {
-			//开始请求之前
-			console.log("正在获取数据...");
-		},
 		success: function(data, textStatus, jqXHR) {
-			console.log(data);
+			if(textStatus == 'success'){
+				if(data){
+					BrinsonDetail(data);
+				}
+			}
 		},
 		complete: function(XMLHttpRequest, textStatus) {
-			//请求完成
-			// textStatus 可能为：null、'success'、 'notmodified'、 'error'、 'timeout'、 'abort'或'parsererror'等
 			if(textStatus == 'timeout') { //判断是否超时
 				var xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
 				xmlhttp.abort(); //终止当前请求
-				alert("网络超时！");　　　　
+				console.log(textStatus);　　　　
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
+			console.log(errorThrown);
 		}
 	})
 }

@@ -33,34 +33,32 @@ function getQueryVariable(variable) {
  * Tbody:string   (表格中tbody的id)
  */
 function TableHtml(data,TString,ThId,Tbody){
-	if(data){
-		var ThHtml = '';
-		var TbodyHtml = '';
-		var columns = data.columns; //行数据
-		var dataArray = data.data;
-		var index = data.index; //列数据
-		
-		columns.unshift(TString);
-		
-		for(var i = 0; i < columns.length; i++) {   
-			ThHtml = '<th>' + columns[i] + '</th>';
-			$(ThId).append(ThHtml);
-		}
+	var ThHtml = '';
+	var TbodyHtml = '';
+	var columns = data.columns; //行数据
+	var dataArray = data.data;
+	var index = data.index; //列数据
 	
-		for(var i = 0; i < dataArray.length; i++) {
-			dataArray[i].unshift(index[i]);
-		}
-
-		for(var i = 0; i < dataArray.length; i++) {
-			TbodyHtml += '<tr>';
-			for(var j = 0; j < dataArray[i].length; j++) {
-				var value = dataArray[i][j];
-				if(value == null)
-					value = "";
-				TbodyHtml += '<td>' + value + '</td>';
-			}
-			TbodyHtml += '</tr>';
-		}
-		$(Tbody).append(TbodyHtml);
+	columns.unshift(TString);
+	
+	for(var i = 0; i < columns.length; i++) {   
+		ThHtml = '<th>' + columns[i] + '</th>';
+		$(ThId).append(ThHtml);
 	}
+
+	for(var i = 0; i < dataArray.length; i++) {
+		dataArray[i].unshift(index[i]);
+	}
+
+	for(var i = 0; i < dataArray.length; i++) {
+		TbodyHtml += '<tr>';
+		for(var j = 0; j < dataArray[i].length; j++) {
+			var value = dataArray[i][j];
+			if(value == null)
+				value = "";
+			TbodyHtml += '<td>' + value + '</td>';
+		}
+		TbodyHtml += '</tr>';
+	}
+	$(Tbody).append(TbodyHtml);
 }
