@@ -1,2 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+require("../main.css");
 var $ = require("jquery");
-var echarts = require('echarts');
+
+$(function(){
+	
+})

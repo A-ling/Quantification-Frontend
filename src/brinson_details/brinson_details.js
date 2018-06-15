@@ -1,4 +1,7 @@
-﻿var $ = require("jquery");
+﻿import 'bootstrap/dist/css/bootstrap.min.css';
+require("../main.css");
+var $ = require("jquery");
+var common = require('../common/common.js');
 
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
@@ -44,16 +47,16 @@ var StrategyInfo = {
 	"strategy_version": "1.1.1"
 }
 
-//定义变量
+/*全局变量*/
 var strategy_id = '';
 var strategy_code = '';
 var strategy_name = '';
 var strategy_version = '';
 
 $(function() {
-	var strategy_id = getQueryVariable('strategy_id');
-	var begin_date = getQueryVariable('begin_date');
-	var end_date = getQueryVariable('end_date');
+	var strategy_id = common.getQueryVariable('strategy_id');
+	var begin_date = common.getQueryVariable('begin_date');
+	var end_date = common.getQueryVariable('end_date');
 	$('#date').text('报告期：' + begin_date + '~' + end_date);
 	if(strategy_id){
 		getStrategyInfo(strategy_id);
@@ -61,40 +64,9 @@ $(function() {
 //		BrinsonDetails(strategy_id, index_code, begin_date, end_date);
 	}
 	//	测试数据
-	BrinsonDetail();
+	
+	common.TableHtml(data,'组合/行业','#BrinsonTh','#BrinsonTbody');
 });
-
-function BrinsonDetail() {
-	var BrinsonDetailData = data;
-	var columns = BrinsonDetailData.columns; //行数据
-	var dataArray = BrinsonDetailData.data;
-	var index = BrinsonDetailData.index; //列数据
-
-	columns.unshift('组合/行业');
-
-	for(var i = 0; i < columns.length; i++) {
-		var BrinsonThHtml = '';
-		BrinsonThHtml = '<th>' + columns[i] + '</th>';
-		$('#BrinsonTh').append(BrinsonThHtml);
-	}
-
-	for(var i = 0; i < dataArray.length; i++) {
-		dataArray[i].unshift(index[i]);
-	}
-
-	var BrinsonTbody = '';
-	for(var i = 0; i < dataArray.length; i++) {
-		BrinsonTbody += '<tr>';
-		for(var j = 0; j < dataArray[i].length; j++) {
-			var value = dataArray[i][j];
-			if(value == null)
-				value = "";
-			BrinsonTbody += '<td>' + value + '</td>';
-		}
-		BrinsonTbody += '</tr>';
-	}
-	$('#BrinsonTbody').append(BrinsonTbody);
-}
 
 //Brinson归因明细数据
 function BrinsonDetails(strategy_id, index_code, begin_date, end_date) {
@@ -172,20 +144,4 @@ function getStrategyInfos(strategy_id) {
 			alert(errorThrown);
 		}
 	})
-}
-
-
-//获取url参数
-function getQueryVariable(variable) {
-//	var query = window.location.href;
-	var query = "http://192.168.250.12:30000/performance/brinson?strategy_id=B0000000000000000000000000002314&index_code=000905&begin_date=20180228&end_date=20180525";
-
-	var vars = query.split("?")[1].split("&");
-	for(var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split("=");
-		if(pair[0] == variable) {
-			return pair[1];
-		}
-	}
-	return false;
 }

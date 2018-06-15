@@ -1,22 +1,12 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+require("./main.css");
 var $ = require("jquery");
 var echarts = require('echarts');
-var exportExcel = require('./common/exportExcel.js')
+var common = require('./common/common.js');
+var exportExcel = require('./common/exportExcel.js');
 
 window.Index = window.Index || {};
-// window.Index.test3 = function(){
-// 	exportExcel.show("调用exportExcel封装的方法测试");
-// 	exportExcel.show1("show1");
-// 	exportExcel.show2("show2");
-// 	alert("index.js Index");
-// }
-
-
-/*全局变量*/
-var index = []; //列数据
-//获取超额贡献,行业配置和选股+交叉对应的值
-var ExContribution = [];
-var configData = [];
-var stockcrossData = [];
 
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
@@ -53,6 +43,25 @@ var data = {
 		[null, null, null, null, -0.0036610694, -0.0125893321, 0.0089282627, -0.0017806429, 0.0107089056]
 	]
 }
+
+//策略信息测试数据
+var StrategyInfo = {
+	"strategy_id": "S0000000000000000000000000000382",
+	"strategy_code": "S0000162",
+	"strategy_name": "PE选股策略",
+	"strategy_version": "1.1.1"
+}
+
+/*全局变量*/
+var index = []; //列数据
+//获取超额贡献,行业配置和选股+交叉对应的值
+var ExContribution = [];    //超额贡献数据
+var configData = [];			//行业配置数据
+var stockcrossData = [];		//选股+交叉数据
+var strategy_id = '';     //策略id
+var strategy_code = '';			//策略代码
+var strategy_name = '';      //策略名称
+var strategy_version = '';     //策略版本
 
 //在页面需要调用这些方法
 window.Index ={
@@ -97,24 +106,10 @@ window.Index ={
 	},
 };
 
-//策略信息测试数据
-var StrategyInfo = {
-	"strategy_id": "S0000000000000000000000000000382",
-	"strategy_code": "S0000162",
-	"strategy_name": "PE选股策略",
-	"strategy_version": "1.1.1"
-}
-
-//定义变量
-var strategy_id = '';
-var strategy_code = '';
-var strategy_name = '';
-var strategy_version = '';
-
 $(function() {
-	var strategy_id = getQueryVariable('strategy_id');
-	var begin_date = getQueryVariable('begin_date');
-	var end_date = getQueryVariable('end_date');
+	var strategy_id = common.getQueryVariable('strategy_id');
+	var begin_date = common.getQueryVariable('begin_date');
+	var end_date = common.getQueryVariable('end_date');
 	$('#date').text('报告期：' + begin_date + '~' + end_date);
 	if(strategy_id){
 		getStrategyInfo(strategy_id);
@@ -377,17 +372,3 @@ function getStrategyInfos(strategy_id) {
 	})
 }
 
-//获取url参数
-function getQueryVariable(variable) {
-//	var query = window.location.href;
-	var query = "http://192.168.250.12:30000/performance/brinson?strategy_id=B0000000000000000000000000002314&index_code=000905&begin_date=20180228&end_date=20180525";
-
-	var vars = query.split("?")[1].split("&");
-	for(var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split("=");
-		if(pair[0] == variable) {
-			return pair[1];
-		}
-	}
-	return false;
-}

@@ -1,29 +1,6 @@
 var $ = require("jquery");
 var idTmr;//定时对象
 
-//类似小程序，模块只有通过 module.exports 或者 exports 才能对外暴露接口
-//两种写法
-
-//写法1：
-//module.exports.show = show;
-
-//写法2
-// module.exports = {
-// 	show:show,
-// 	show1:test1,
-// 	show2:test2
-// }
-
-// function show(msg){
-// 	alert("exprotExcel.js-" + msg);
-// }
-// function test1(msg){
-// 	alert("test1"+msg);
-// }
-// function test2(msg){
-// 	alert("test2"+msg);
-// }
-
 module.exports = {
 	//测试下载excel
 	test:test,

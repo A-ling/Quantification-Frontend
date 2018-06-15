@@ -32,17 +32,17 @@ module.exports = {
         new HtmlWebpackPlugin({
 			filename:'index',
             template: './src/index.html',
-            chunks:['common','index']
+            chunks:['index']
         }),
         new HtmlWebpackPlugin({
 			filename:'multi_factor',
             template: './src/multi_factor/multi_factor.html',
-            chunks:['common','multi_factor']
+            chunks:['multi_factor']
         }),
 		new HtmlWebpackPlugin({
 			filename:'brinson_details',
             template: './src/brinson_details/brinson_details.html',
-            chunks:['common','brinson_details']
+            chunks:['brinson_details']
         }),
     ],
     module: {
