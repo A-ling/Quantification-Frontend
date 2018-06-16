@@ -6,8 +6,6 @@ var echarts = require('echarts');
 var common = require('./common/common.js');
 var exportExcel = require('./common/exportExcel.js');
 
-window.Index = window.Index || {};
-
 var data = {
 	"columns": ["组合比例", "基准比例", "超配比例", "行业表现", "组合贡献", "基准贡献", "超额贡献", "行业配置", "选股+交叉"],
 	"index": ["交通运输", "休闲服务", "传媒", "公用事业", "农林牧渔", "化工", "医药生物", "商业贸易", "国防军工", "家用电器", "建筑材料", "建筑装饰", "房地产", "有色金属", "机械设备", "汽车", "电子", "电气设备", "纺织服装", "综合", "计算机", "轻工制造", "通信", "采掘", "钢铁", "银行", "非银金融", "食品饮料", "合计"],
@@ -63,6 +61,7 @@ var strategy_code = '';			//策略代码
 var strategy_name = '';      //策略名称
 var strategy_version = '';     //策略版本
 
+//window.Index = window.Index || {};
 window.Index ={
 	//导出超额贡献图的excel
 	ExportEx : function(){
@@ -103,9 +102,11 @@ window.Index ={
 		}
 		exportExcel.exportExcel(data,fileName)
 	},
+
 };
 
 $(function() {
+	
 	strategy_id = common.getQueryVariable('strategy_id');
 	var index_code = common.getQueryVariable('index_code');
 	var begin_date = common.getQueryVariable('begin_date');

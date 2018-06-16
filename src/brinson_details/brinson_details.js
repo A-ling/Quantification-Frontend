@@ -55,6 +55,10 @@ var strategy_name = '';
 var strategy_version = '';
 
 $(function() {
+	var id = common.getQueryVariable('id');
+	var name = common.getQueryVariable('name');
+	alert(id+","+name);
+
 	var strategy_id = common.getQueryVariable('strategy_id');
 	var index_code = common.getQueryVariable('index_code');
 	var begin_date = common.getQueryVariable('begin_date');

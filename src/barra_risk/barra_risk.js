@@ -71,28 +71,12 @@ var strategy_version = '';
 var trade_date = '';
 
 //在页面需要调用这些方法
-window.Index ={
+window.BarraRisk ={
 	//导出Barra风险分析的excel
 	Export : function(){
-//		var fileName = "Barra风险分析";
-//		var data = new Array();//二维数组
-//		
-//		//excel首行
-//		var head = new Array();
-//		head.push(new exportExcel.cell(""));
-//		head.push(new exportExcel.cell("行业配置"));
-//		head.push(new exportExcel.cell("选股+交叉"));
-//		data.push(head);
-//
-//		for(var i = 0;i<index.length; i++){
-//			var hang = new Array(); 
-//			//每行三个个单元格
-//			hang.push(new exportExcel.cell(index[i]));
-//			hang.push(new exportExcel.cell(BarraRiskData[i]));
-//			//放入数组
-//			data.push(hang);
-//		}
-//		exportExcel.exportExcel(data,fileName)
+		var fileName = "Barra风险分析";
+		var innerHtml = document.getElementById("BarraRiskTable").innerHTML;
+		exportExcel.exprotTableHtml(innerHtml,fileName);
 	}
 };
 

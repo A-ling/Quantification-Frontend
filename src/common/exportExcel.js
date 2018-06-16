@@ -11,7 +11,12 @@ module.exports = {
 	excelName:导出的excel文件默认名称
 	*/
 	exportExcel:exportExcel,
-
+	/*
+	入参：
+	tableInnerHtml：table的innerHTML
+	excelName:导出的excel文件默认名称
+	*/
+	exprotTableHtml:exprotTableHtml,
 	/*
 	入参：
 	value：单元格显示内容
@@ -51,8 +56,20 @@ excelName:导出的excel文件默认名称
 */
 function exportExcel(dataTable,excelName) {//整个表格拷贝到EXCEL中
 	if(dataTable == undefined){
+		alert("无数据导出");
 		return;
 	}
+	var tableInnerHtml = getTableInnerHtml(dataTable);
+
+	exportTableHtmlToExcel(tableInnerHtml,excelName)
+}
+
+function exprotTableHtml(tableInnerHtml,excelName){
+	if(tableInnerHtml == undefined || tableInnerHtml == ""){
+		alert("导出内容不能为空");
+		return;
+	}
+
 	var rand = Date.parse(new Date());
 	if(excelName == ''){
 		excelName = "Excel"+rand;
@@ -66,7 +83,7 @@ function exportExcel(dataTable,excelName) {//整个表格拷贝到EXCEL中
 	//a链接点击
 	divHtml += ' <a href="#" id="'+aClickId+'" ></a>';//提供给下面自定义文件名的操作
 	//构建table
-	var tableInnerHtml = getTableInnerHtml(dataTable);
+	
 	divHtml += '<table id="'+tableid+'" >'+ tableInnerHtml +'</table>';
 	divHtml += '</div>';
 	$("body").append(divHtml);
@@ -115,6 +132,7 @@ function exportExcel(dataTable,excelName) {//整个表格拷贝到EXCEL中
 	//移除动态添加的隐藏的html
 	$("#"+divId).remove();
 }
+
 function Cleanup() {
 	window.clearInterval(idTmr);
 	CollectGarbage();
