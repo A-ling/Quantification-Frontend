@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 require("../main.css");
 require("./barra_risk.css");
 var $ = require("jquery");
-//var bootstrap-datetimepicker = require('bootstrap-datetimepicker');
 var common = require('../common/common.js');
 var exportExcel = require('../common/exportExcel.js');
 
@@ -82,8 +81,8 @@ window.BarraRisk ={
 };
 
 $(function() {
-	strategy_id = common.getQueryVariable('strategy_id');
-	var index_code = common.getQueryVariable('index_code');
+	strategy_id = common.getParamFromURLOrCookie('strategy_id');
+	var index_code = common.getParamFromURLOrCookie('index_code');
 //	var trade_date = common.getQueryVariable('trade_date');
 	var trade_date = '20180228';
 	$('#date').text('日期：' + trade_date);
