@@ -61,7 +61,7 @@ function exportExcel(dataTable,excelName) {//整个表格拷贝到EXCEL中
 	}
 	var tableInnerHtml = getTableInnerHtml(dataTable);
 
-	exportTableHtmlToExcel(tableInnerHtml,excelName)
+	exprotTableHtml(tableInnerHtml,excelName)
 }
 
 function exprotTableHtml(tableInnerHtml,excelName){
