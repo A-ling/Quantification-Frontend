@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 require("../main.css");
 require("./barra_risk.css");
 var $ = require("jquery");
+//var bootstrap-datetimepicker = require('bootstrap-datetimepicker');
 var common = require('../common/common.js');
 var exportExcel = require('../common/exportExcel.js');
 
