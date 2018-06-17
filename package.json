@@ -43,7 +43,7 @@
     "jquery": "^3.3.1",
     "open-browser-webpack-plugin": "0.0.5",
     "popper.js": "^1.14.3",
-    "webpack-cli": "^3.0.3",
+    "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
   }
 }
