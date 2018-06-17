@@ -56,6 +56,12 @@ module.exports = {
             template: './src/barra_risk/barra_risk.html',
             chunks:['barra_risk']
         }),
+        new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery",
+          "window.jQuery": "jquery",
+          Popper: ['popper.js', 'default'],
+        }),
     ],
     module: {
 		

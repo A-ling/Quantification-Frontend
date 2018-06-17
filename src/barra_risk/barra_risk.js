@@ -1,7 +1,11 @@
+//var $ = require("jquery");
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-datepicker/dist/js/bootstrap-datepicker.js";
+import "bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js";
+
 require("../main.css");
 require("./barra_risk.css");
-var $ = require("jquery");
+
 var common = require('../common/common.js');
 var exportExcel = require('../common/exportExcel.js');
 
@@ -93,7 +97,22 @@ $(function() {
 	}
 	//	测试数据
 	common.TableHtml(data, '因子名称', '#BarraRiskTh', '#BarraRiskTbody');
+
+	bindDate();
 });
+
+function bindDate(){
+	$("#dtp_input1").datepicker({
+		
+		//altField: '#dtp_input1',
+		//dateFormat: 'yyyy-MM-dd',//设置时间格式，默认值: 'mm/dd/yyyy'
+		// dayNamesMin: ['日','一','二','三','四','五','六'],
+		// monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+		//changeMonth:true,
+		//changeYear:true,
+		
+	});
+}
 
 //Brinson归因明细数据
 function BarraRiskDetails(strategy_id, index_code, trade_date) {
