@@ -121,7 +121,7 @@ function TableHtml(data,TString,ThId,Tbody){
 function setCookie(name,value,minuteToLive){
 
     var cookie = name + '=' + encodeURIComponent(value);
-    console.log(cookie);
+    
     if(typeof daysToLive == 'number'){
         cookie += ';max-age='+(minuteToLive*60);
     }
