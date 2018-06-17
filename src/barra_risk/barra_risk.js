@@ -81,8 +81,8 @@ window.BarraRisk ={
 };
 
 $(function() {
-	strategy_id = common.getQueryVariable('strategy_id');
-	var index_code = common.getQueryVariable('index_code');
+	strategy_id = common.getParamFromURLOrCookie('strategy_id');
+	var index_code = common.getParamFromURLOrCookie('index_code');
 //	var trade_date = common.getQueryVariable('trade_date');
 	var trade_date = '20180228';
 	$('#date').text('日期：' + trade_date);

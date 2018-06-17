@@ -66,10 +66,10 @@ var strategy_name = '';
 var strategy_version = '';
 
 $(function() {
-	strategy_id = common.getQueryVariable('strategy_id');
-	var index_code = common.getQueryVariable('index_code');
-	var begin_date = common.getQueryVariable('begin_date');
-	var end_date = common.getQueryVariable('end_date');
+	strategy_id = common.getParamFromURLOrCookie('strategy_id');
+	var index_code = common.getParamFromURLOrCookie('index_code');
+	var begin_date = common.getParamFromURLOrCookie('begin_date');
+	var end_date = common.getParamFromURLOrCookie('end_date');
 	$('#date').text('报告期：' + begin_date + '~' + end_date);
 	if(strategy_id){
 		getStrategyInfo(strategy_id);
