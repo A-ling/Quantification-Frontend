@@ -1,7 +1,7 @@
 //var $ = require("jquery");
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-datepicker/dist/js/bootstrap-datepicker.js";
-import "bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js";
+import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
 
 require("../main.css");
 require("./barra_risk.css");
@@ -87,32 +87,71 @@ window.BarraRisk ={
 $(function() {
 	strategy_id = common.getParamFromURLOrCookie('strategy_id');
 	var index_code = common.getParamFromURLOrCookie('index_code');
-//	var trade_date = common.getQueryVariable('trade_date');
+	//var trade_date = common.getQueryVariable('trade_date');
 	var trade_date = '20180228';
-	$('#date').text('日期：' + trade_date);
+	$('#date').val(trade_date);
 	if(strategy_id) {
-		getStrategyInfo(strategy_id);
+		getStrategyInfo(strategy_id,()=>{});
 		$('#strategy').text('策略：' + strategy_name);
 		//BarraRiskDetails(strategy_id, index_code, trade_date);
 	}
 	//	测试数据
 	common.TableHtml(data, '因子名称', '#BarraRiskTh', '#BarraRiskTbody');
 
-	bindDate();
+	bindDate(strategy_id, index_code);
 });
 
-function bindDate(){
-	$("#dtp_input1").datepicker({
-		
-		//altField: '#dtp_input1',
-		//dateFormat: 'yyyy-MM-dd',//设置时间格式，默认值: 'mm/dd/yyyy'
-		// dayNamesMin: ['日','一','二','三','四','五','六'],
-		// monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-		//changeMonth:true,
-		//changeYear:true,
-		
-	});
-}
+/*
+初始化日期控件，并绑定事件：选中日期后刷新列表
+*/
+function bindDate(strategy_id, index_code){
+	$("#date").datepicker({
+		//借鉴：https://blog.csdn.net/wuhan_yking/article/details/52709347
+		//http://www.bootcss.com/p/bootstrap-datetimepicker/
+		assumeNearbyYear: false,
+		autoclose: true,
+		beforeShowDay: $.noop,
+		beforeShowMonth: $.noop,
+		beforeShowYear: $.noop,
+		beforeShowDecade: $.noop,
+		beforeShowCentury: $.noop,
+		calendarWeeks: false,
+		clearBtn: false,
+		toggleActive: false,
+		daysOfWeekDisabled: [],
+		daysOfWeekHighlighted: [],
+		datesDisabled: [],
+		endDate: Infinity,
+		forceParse: true,
+		format: 'yyyymmdd',
+		keepEmptyValues: false,
+		keyboardNavigation: true,
+		language: 'cn',
+		minViewMode: 0,
+		maxViewMode: 4,
+		multidate: false,
+		multidateSeparator: ',',
+		orientation: "auto",
+		rtl: false,
+		startDate: -Infinity,
+		startView: 0,
+		todayBtn: "linked",
+		todayHighlight: false,
+		updateViewDate: true,
+		weekStart: 0,
+		disableTouchKeyboard: false,
+		enableOnReadonly: true,
+		showOnFocus: true,
+		zIndexOffset: 10,
+		container: 'body',
+		immediateUpdates: false,
+		title: '',
+	}).on('changeDate', function(ev){
+	    var date = ev.date.Format("yyyyMMdd");
+	    console.log("选中日期："+date);
+	    BarraRiskDetails(strategy_id, index_code, date);
+    });
+};
 
 //Brinson归因明细数据
 function BarraRiskDetails(strategy_id, index_code, trade_date) {
@@ -193,3 +232,14 @@ function getStrategyInfos(strategy_id) {
 		}
 	})
 }
+//汉化日期控件
+$.fn.datepicker.dates['cn'] = {    
+    days:       ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],    
+    daysShort:  ["日", "一", "二", "三", "四", "五", "六","日"],    
+    daysMin:    ["日", "一", "二", "三", "四", "五", "六","日"],    
+    months:     ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"],    
+    monthsShort:  ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],    
+    meridiem:    ["上午", "下午"],    
+    //suffix:      ["st", "nd", "rd", "th"],    
+    today:       "今天"
+};
