@@ -52,6 +52,11 @@ module.exports = {
             chunks:['barra_details']
         }),	
         new HtmlWebpackPlugin({
+            filename:'barra_info/barra_details',
+            template: './src/barra/detail/barra_details.html',
+            chunks:['barra_details']
+        }), 
+        new HtmlWebpackPlugin({
 			filename:'barra_risk',
             template: './src/barra_risk/barra_risk.html',
             chunks:['barra_risk']
