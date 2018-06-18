@@ -19,6 +19,7 @@ module.exports = {
 		brinson_details:'./src/brinson_details/brinson_details.js',
 		barra:'./src/barra/barra.js',
 		barra_details:'./src/barra_details/barra_details.js',
+        test_barra_details:'./src/barra/detail/barra_details.js',
 		barra_risk:'./src/barra_risk/barra_risk.js',
 	},
     output: {
@@ -51,10 +52,11 @@ module.exports = {
             template: './src/barra_details/barra_details.html',
             chunks:['barra_details']
         }),	
+        //深层次访问路径测试
         new HtmlWebpackPlugin({
             filename:'barra_info/barra_details',
             template: './src/barra/detail/barra_details.html',
-            chunks:['barra_details']
+            chunks:['test_barra_details']
         }), 
         new HtmlWebpackPlugin({
 			filename:'barra_risk',
