@@ -205,6 +205,10 @@ input[type=button] {
 	margin: 10px 0px;
 }
 
+#exDatas,#datas{
+	display: none;
+}
+
 /*表格样式*/
 .table td, .table th{
 	padding: 15px 0px;

@@ -55,10 +55,6 @@ var strategy_name = '';
 var strategy_version = '';
 
 $(function() {
-	// var id = common.getQueryVariable('id');
-	// var name = common.getQueryVariable('name');
-	// alert(id+","+name);
-
 	var strategy_id = common.getParamFromURLOrCookie('strategy_id');
 	var index_code = common.getParamFromURLOrCookie('index_code');
 	var begin_date = common.getParamFromURLOrCookie('begin_date');
@@ -66,6 +62,7 @@ $(function() {
 	$('#date').text('报告期：' + begin_date + '~' + end_date);
 	if(strategy_id){
 		getStrategyInfo(strategy_id);
+//		common.getStrategyInfos(strategy_id);
 		$('#strategy').text('策略：' + strategy_name);
 		//BrinsonDetails(strategy_id, index_code, begin_date, end_date);
 	}
@@ -115,37 +112,4 @@ function getStrategyInfo(strategy_id) {
 		strategy_name = StrategyInfo.strategy_name;
 		strategy_version = StrategyInfo.strategy_version;
 	}
-}
-
-//获取策略信息
-function getStrategyInfos(strategy_id) {
-	var StrategyInfos_url = "https://quant-dev.phfund.com.cn/quant-policymanager/strategy-simple";
-	$.ajax({
-		url: StrategyInfos_url,
-		type: 'get',
-		data: {
-			strategy_id: strategy_id,
-		},
-		timeout: 15000, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
-		dataType: "json", //请求数据类型
-		beforeSend: function(XMLHttpRequest) {
-			//开始请求之前
-			console.log("正在获取数据...");
-		},
-		success: function(data, textStatus, jqXHR) {
-			console.log(data);
-		},
-		complete: function(XMLHttpRequest, textStatus) {
-			//请求完成
-			// textStatus 可能为：null、'success'、 'notmodified'、 'error'、 'timeout'、 'abort'或'parsererror'等
-			if(textStatus == 'timeout') { //判断是否超时
-				var xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
-				xmlhttp.abort(); //终止当前请求
-				alert("网络超时！");　　　　
-			}
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
-		}
-	})
 }

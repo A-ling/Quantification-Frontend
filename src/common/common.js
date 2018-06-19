@@ -34,6 +34,12 @@ module.exports = {
 	name:cookie's key
 	*/
 	getCookie:getCookie,
+	
+	/*
+	入参;
+	strategy_id:策略id
+	*/
+	getStrategyInfos:getStrategyInfos,
 };
 
 /*
@@ -166,4 +172,39 @@ Date.prototype.Format = function (fmt) { //author: meizz
     for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+
+//获取策略信息
+//入参：策略id:strategy_id
+function getStrategyInfos(strategy_id) {
+	var StrategyInfos_url = "https://quant-dev.phfund.com.cn/quant-policymanager/strategy-simple/" + strategy_id;
+	$.ajax({
+		url: StrategyInfos_url,
+		type: 'get',
+//		data: {
+//			strategy_id: strategy_id,
+//		},
+		timeout: 15000, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
+		dataType: "json", //请求数据类型
+		success: function(data, textStatus, jqXHR) {
+			if(textStatus == 'success'){
+				if(data){
+					strategy_id = data.strategy_id;
+					strategy_code = data.strategy_code;
+					strategy_name = data.strategy_name;
+					strategy_version = data.strategy_version;
+				}
+			}
+		},
+		complete: function(XMLHttpRequest, textStatus) {
+			if(textStatus == 'timeout') { //判断是否超时
+				var xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
+				xmlhttp.abort(); //终止当前请求
+				console.log(textStatus);　　　　
+			}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(errorThrown);
+		}
+	})
 }
